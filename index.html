@@ -8,9 +8,11 @@
 		<script type="text/javascript" src="app.js"></script>
 		<h1>{{"Linxup Street View"}}</h1>
 		<div ng-controller="LinxupController as linxup">
-			<h2> {{linxup.vehicles.data.positions[0].label}} </h2>
-			<p> {{linxup.vehicles.data.positions[0].latitude}} </p>
-			<p> {{linxup.vehicles.data.positions[0].longitude}} </p>
+			<div ng-repeat="vehicle in linxup.vehicles.data.positions">
+				<h2> {{vehicle.label}} </h2>
+				<p> {{vehicle.latitude}} </p>
+				<p> {{vehicle.longitude}} </p>
+			</div>
 		</div>
 	</body>
 </html>
