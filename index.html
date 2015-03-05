@@ -8,10 +8,9 @@
 		<script type="text/javascript" src="app.js"></script>
 		<h1>{{"Linxup Street View"}}</h1>
 		<div ng-controller="LinxupController as linxup">
-			<div ng-repeat="vehicle in linxup.vehicles.data.positions">
-				<h2> {{vehicle.label}} </h2>
-				<p> {{vehicle.latitude}} </p>
-				<p> {{vehicle.longitude}} </p>
+			<div ng-repeat="driver in linxup.drivers">
+				<h1>{{driver.name}}</h1>
+				<h3>{{driver.id}}</h3>
 			</div>
 		</div>
 	</body>
