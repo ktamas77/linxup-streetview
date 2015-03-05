@@ -8,8 +8,8 @@
     $http.post(
         'https://www.linxup.com/ibis/rest/linxupmobile/login',
         {
-          username: '###',
-          password: '###'
+          username: configData.username,
+          password: configData.password
         }
     ).success(function(response) {
         linxup.drivers = response.data.drivers;
