@@ -16,46 +16,11 @@
     return {
       link: function (scope, element, attr) {
         element.attr('id', 'drivermap_' + scope.driver.id);
-        $http.post(
-          linxupMapApiUrl,
-          {
-            username: configData.username,
-            password: configData.password,
-            driverId: scope.driver.id
-          }
-        ).success(function(response) {
-          driverIndex = 'driver' + scope.driver.id;
-
-          positions = response.data.positions;
-          scope.driverPos[driverIndex] = positions[positions.length-1];
-          scope.linxup.drivers[driverIndex].position = scope.driverPos[driverIndex];
-          var driverPosition = new google.maps.LatLng(
-            scope.driverPos[driverIndex].latitude, 
-            scope.driverPos[driverIndex].longitude
-          );        
-          var mapOptions = {
-            center: driverPosition,
-            zoom: 13
-          };
-
-          scope.googleMap[driverIndex] = new google.maps.Map(element[0], mapOptions);
-          
-          panoramaOptions = {
-            position: driverPosition,
-            pov: {
-              heading: scope.driverPos[driverIndex].direction,
-              pitch: 10
-            }
-          };
-          
-          scope.googleView[driverIndex] = 
-            new google.maps.StreetViewPanorama(
-              document.getElementById('driverview_' + scope.driver.id), 
-              panoramaOptions
-            );
-
-          scope.googleMap[driverIndex].setStreetView(scope.googleView[driverIndex]);
-        });
+        driverIndex = 'driver' + scope.driver.id;
+        mapOptions = {
+          zoom: 13
+        };
+        scope.googleMap[driverIndex] = new google.maps.Map(element[0], mapOptions);
       }
     }
   }]);
@@ -64,6 +29,19 @@
     return {
       link: function (scope, element, attr) {
         element.attr('id', 'driverview_' + scope.driver.id);
+        driverIndex = 'driver' + scope.driver.id;
+        panoramaOptions = {
+          pov: {
+            heading: 0,
+            pitch: 0
+          }
+        };
+        scope.googleView[driverIndex] = 
+          new google.maps.StreetViewPanorama(
+            document.getElementById('driverview_' + scope.driver.id), 
+            panoramaOptions
+          );
+        scope.googleMap[driverIndex].setStreetView(scope.googleView[driverIndex]);
       }
     }
   }]);
@@ -73,7 +51,6 @@
     $scope.linxup.drivers = {};
     $scope.googleMap = {}
     $scope.googleView = {}
-    $scope.driverPos = {}
 
     // --- query all drivers ---
     function fetchDrivers() {
@@ -107,12 +84,19 @@
 
             // --- update map
             var driverPosition = new google.maps.LatLng(
-              position.latitude+Math.random(3)/100, 
+              position.latitude, 
               position.longitude
             );     
-            $scope.googleMap[driverIndex].panTo(driverPosition);
-            $scope.googleView[driverIndex].setPosition(driverPosition);
-
+            if ($scope.googleMap[driverIndex]) {
+              $scope.googleMap[driverIndex].panTo(driverPosition);
+            }
+            if ($scope.googleView[driverIndex]) {
+             $scope.googleView[driverIndex].setPosition(driverPosition);
+             $scope.googleView[driverIndex].setPov({
+               heading: position.direction,
+               pitch: 10
+             });
+            }
           }
         });
 
@@ -123,7 +107,7 @@
     fetchDrivers();
     timeoutId = $interval(function() {
       fetchDrivers();
-    }, 1000);
+    }, 1000 * 20);
 
   }]);
 })();
