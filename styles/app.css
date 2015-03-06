@@ -1,0 +1,6 @@
+body { margin: 0px; padding: 0px; }
+h1.title { background-color: #44a; color: white; padding: 10px; text-align: center;}
+div.driver-info { height: 250px; width: 200px; margin: 0; padding: 0; background-color: #ccc; float: left; text-align: left; padding: 8px;}
+div.map-canvas { height: 250px; width: 400px; margin: 0; padding: 0; background-color: #eee; float: left;}
+div.pano { height: 250px; width: 400px; margin: 0; padding: 0; background-color: #ddd; float: left;}
+div.vehicle-frame { width: 1016px; border: 8px solid #444; margin: 20px; }

@@ -28,6 +28,7 @@
 
           positions = response.data.positions;
           scope.driverPos[driverIndex] = positions[positions.length-1];
+          scope.linxup.drivers[driverIndex].position = scope.driverPos[driverIndex];
           var driverPosition = new google.maps.LatLng(
             scope.driverPos[driverIndex].latitude, 
             scope.driverPos[driverIndex].longitude
