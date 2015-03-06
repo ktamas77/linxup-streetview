@@ -68,7 +68,7 @@
     }
   }]);
   
-  app.controller('LinxupController', ['$http', '$scope', function($http, $scope) {
+  app.controller('LinxupController', ['$interval', '$http', '$scope', function($interval, $http, $scope) {
     $scope.linxup = this;
     $scope.linxup.drivers = {};
     $scope.googleMap = {}
@@ -76,20 +76,55 @@
     $scope.driverPos = {}
 
     // --- query all drivers ---
-    $http.post(
-      linxupLoginApiUrl,
-      {
-        username: configData.username,
-        password: configData.password
-      }
-    ).success(function(response) {
-      drivers = response.data.drivers;
-      for (driverIndex in drivers) {
-        driver = drivers[driverIndex];
-        driverId = driver.id;
-        $scope.linxup.drivers['driver'+driverId] = driver;
-      }
-    });
+    function fetchDrivers() {
+      $http.post(
+        linxupLoginApiUrl,
+        {
+          username: configData.username,
+          password: configData.password
+        }
+      ).success(function(response) {
+        drivers = response.data.drivers;
+        for (driverIndex in drivers) {
+          driver = drivers[driverIndex];
+          driverId = driver.id;
+          $scope.linxup.drivers['driver'+driverId] = driver;
+        }
+
+        $http.post(
+          linxupMapApiUrl,
+          {
+            username: configData.username,
+            password: configData.password,
+          }
+        ).success(function(response) {
+          positions = response.data.positions;
+          for (positionIndex in positions) {
+            position = positions[positionIndex];
+            driverId = position.driverId;
+            driverIndex = 'driver'+driverId;
+            $scope.linxup.drivers[driverIndex].position = position;
+
+            // --- update map
+            var driverPosition = new google.maps.LatLng(
+              position.latitude+Math.random(3)/100, 
+              position.longitude
+            );     
+            $scope.googleMap[driverIndex].panTo(driverPosition);
+            $scope.googleView[driverIndex].setPosition(driverPosition);
+
+          }
+        });
+
+
+      });
+    }
+
+    fetchDrivers();
+    timeoutId = $interval(function() {
+      fetchDrivers();
+    }, 1000);
+
   }]);
 })();
 
