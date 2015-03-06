@@ -8,7 +8,7 @@
     return {
       link: function (scope, element, attr) {
       },
-      templateUrl: 'driver-info.html'
+      templateUrl: '/templates/driver-info.html'
     };
   });
 

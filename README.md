@@ -1,7 +1,9 @@
-linxup-streetview
+linxup streetview
 =================
 
-Add config.js with your credentials. Example:
+Street view visualization for fleets equipped with the linxup GPS vehicle trackers.
+
+Add js/config.js with your credentials. Example:
 
 ```
 var configData = {
