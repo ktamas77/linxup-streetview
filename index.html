@@ -3,8 +3,9 @@
   <head>
   	<meta charset="utf-8">
   	<style type="text/css">
-      div.map-canvas { height: 200px; width: 400px; margin: 0; padding: 0; background-color: #eee; float: left;}
-      div.pano { height: 200px; width: 400px; margin: 0; padding: 0; background-color: #ddd; float: left;}
+      div.driver-info { height: 250px; width: 200px; margin: 0; padding: 0; background-color: #ccc; float: left; }
+      div.map-canvas { height: 250px; width: 400px; margin: 0; padding: 0; background-color: #eee; float: left;}
+      div.pano { height: 250px; width: 400px; margin: 0; padding: 0; background-color: #ddd; float: left;}
     </style>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
@@ -17,6 +18,9 @@
     <h1>{{"Linxup Street View"}}</h1>
     <div ng-controller="LinxupController as linxup">
       <div ng-repeat="driver in linxup.drivers">
+      	<div driver-info class="driver-info"></div>
+      	<div driver-map class="map-canvas"></div>
+      	<div driver-view class="pano"></div>
       </div>
     </div>
   </body>
