@@ -1,3 +1,5 @@
 <div>Vehicle: {{driver.name}}</div>
+<div>Battery: {{driver.position.battery}}v</div>
 <div>Speed: {{driver.position.speed + ' mph'}}</div>
 <div>Heading: {{driver.position.heading}}</div>
+<div>Date: {{driver.position.date | date:'yyyy-MM-dd HH:mm:ss'}}</div>
